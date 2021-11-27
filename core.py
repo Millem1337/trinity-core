@@ -45,14 +45,15 @@ def run_server():
 	print('Server starting on:', os.name)
 	server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-	server_socket.bind((server_setting['ip'], server_settings['port']))
+	server_socket.bind((server_settings['ip'], server_settings['port']))
 	server_socket.listen()
 
 	while True:
 		client_socket, addres = server_socket.accept()
 		req = client_socket.recv(1024)
-		#print(req)
-		#print(addres)
+		print(req)
+		print()
+		print(addres)
 
 		response = generate_respone(req.decode('utf-8'))
 

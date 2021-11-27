@@ -14,5 +14,5 @@ def index():
     #    return ss.read()
 
 PAGES = {
-    '/': index()
+    '/': index(),
 }
