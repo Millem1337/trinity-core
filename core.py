@@ -10,6 +10,8 @@ with open('settings.json') as ss:
 
 def parse_request(request):
 	parsed = request.split(' ')
+	if len(parsed) == 1:
+		return
 	method = parsed[0]
 	url = parsed[1]
 
@@ -24,12 +26,13 @@ def generate_headers(method, url):
 	return ('HTTP/1.1 200 URL FOUND, Method ALLOWED\n\n', 200)
 
 def generate_content(code, url):
-	if code == 404:
-		return '<h1>404 Url not found</h1>'
-	if code == 405:
-		return '<h1>405 Method not allowed</h1>'
-	
-	return PAGES[url]
+	match code:
+		case 404:
+			return '<h1>404 Url not found</h1>'
+		case 405:
+			return '<h1>405 Method not allowed</h1>'
+		case 200:
+			return PAGES[url]
 
 def generate_respone(request):
 	method, url = parse_request(request)
@@ -42,7 +45,7 @@ def run_server():
 	print('Server starting on:', os.name)
 	server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-	server_socket.bind(('localhost', server_settings['port']))
+	server_socket.bind((server_setting['ip'], server_settings['port']))
 	server_socket.listen()
 
 	while True:
